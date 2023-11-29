@@ -32,7 +32,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb' }))
 
 
-app.post('/generateImage', (req, res) => {
+app.post('/api/generateImage', (req, res) => {
     const url = 'http://62.68.146.39:4000/gen/createNude';
     const data = {
         "mask": req.body.mask
@@ -46,7 +46,7 @@ app.post('/generateImage', (req, res) => {
         });
 })
 
-app.get('/me/:userID', (req, res) => {
+app.get('/api/me/:userID', (req, res) => {
     const userId = req.params.userID;
 
     db.get('SELECT * FROM users WHERE id = ?', [userId], (err, row) => {
@@ -77,7 +77,7 @@ app.get('/me/:userID', (req, res) => {
 
 })
 
-app.post('/success', upload.none(), async (req, res) => {
+app.post('/api/success', upload.none(), async (req, res) => {
     const data = req.body;
     let userID;
     let amount
@@ -105,7 +105,7 @@ app.post('/success', upload.none(), async (req, res) => {
     res.send('success')
 })
 
-app.post('/minus', (req, res) => {
+app.post('/api/minus', (req, res) => {
     const data = req.body;
     db.run('UPDATE users SET token = token - ? WHERE id = ?', [data.token, data.userID], function (err) {
         if (err) {
@@ -115,7 +115,7 @@ app.post('/minus', (req, res) => {
     res.send('success')
 })
 
-app.post('/payment', (req, res) => {
+app.post('/api/payment', (req, res) => {
     const data = req.body;
     const order_id = uuid.v4();
     const amount = data.amount;
